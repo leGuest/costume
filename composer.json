@@ -1,0 +1,31 @@
+{
+  "name": "Costumes",
+  "licence": "MIT",
+  "require": {
+    "php": ">=5.4.0",
+    "silex/silex": "~1.1",
+    "twig/twig" : "1.15.*@dev",
+    "symfony/twig-bridge" : "~2.1"
+  },
+  "require-dev": {
+    "behat/behat": "2.5.*@stable",
+    "behat/mink": "*",
+    "behat/mink-extension": "*",
+    "behat/mink-goutte-driver": "*",
+    "behat/mink-selenium2-driver": "*",
+    "fabpot/goutte": "*",
+    "phpunit/phpunit": "*",
+    "filp/whoops": "*"
+  },
+  "config":  {
+    "bin-dir": "bin"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "App\\Models\\": "app/models",
+      "App\\Views\\": "app/views",
+      "App\\Controllers\\": "app/controllers"
+    }
+  }
+}

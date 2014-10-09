@@ -1,0 +1,24 @@
+{% if costumes %}
+  <table>
+    <th>name</th>
+    <th>preview</th>
+    <th>values</th>
+  {% for costume in costumes %}
+    <tr>
+      <td>{{ costume.name }}</td>
+      <td>
+      {% if (costume.image|trim("")) is empty %}
+        no image
+      {% else %}
+        {{ costume.image }}
+      {% endif %}
+      </td>
+      <td>{{ costume.tokens }}</td>
+    </tr>
+  {% endfor %}
+  </table>
+{% else %}
+  <div>No costumes to show</div>
+{% endif %}
+
+<a href="./costume/add">add costume</a>

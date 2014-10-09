@@ -1,0 +1,18 @@
+Feature: costumes
+  Scenario: list of costumes
+  When I am on "/"
+  Then I should see a list of costumes
+  And I Should see a "add costume" link that should go to "/costume/add"
+
+  Scenario: visitor wants to add a costume
+    Given I am on "/"
+    When I click on the "add costume" link
+    Then I should be redirected to "/costume/add"
+
+  Scenario: visitor add a costume
+    Given I am on "/costume/add"
+    When I fill the "name" input
+    And I fill the "tokens" input
+    And I push the "submit" button
+    Then I Should see a notification
+

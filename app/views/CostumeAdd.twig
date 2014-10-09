@@ -1,0 +1,25 @@
+{# @TODO :
+  refactor in form.css
+#}
+<style>
+  label, input, div[classname*="costume--input--*"]{
+    display:block;
+  }
+</style>
+<form id="costume--add" method="post" action="costume/add">
+  <label for="costume name">What is the costume you want: </label>
+  <input type="text" name="costume-name"/>
+
+  <label for="tokens">How many tokens do you want to put in:</label>
+  <div class="costume--input--description">
+    Minimum of 100 tokens required
+  </div>
+  <input type="text" name="costume-tokens" placehoder="greater than 100"/>
+
+  <label for="mfc username">write your mfc username:</label>
+  <input type="text" name="costume-tippername"/>
+  {# @TODO :
+    security_token
+  #}
+  <input type="submit" name="costume-submit" id="costume-submit" value="add a costume" />
+</form>
