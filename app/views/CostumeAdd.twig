@@ -6,7 +6,7 @@
     display:block;
   }
 </style>
-<form id="costume--add" method="post" action="costume/add">
+<form id="costume--add" method="post" action="{{ app.request.getBaseURL()}}/costume/add">
   <label for="costume name">What is the costume you want: </label>
   <input type="text" name="costume-name"/>
 

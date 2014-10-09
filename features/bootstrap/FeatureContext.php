@@ -27,7 +27,7 @@ class FeatureContext extends BehatContext
   public function __construct()
   {
     $this->client = new Client();
-    $this->baseURL = "http://127.0.0.1/costumes/web";
+    $this->baseURL = "http://127.0.0.1:8080/costumes/web";
   }
 
   /**
@@ -66,7 +66,6 @@ class FeatureContext extends BehatContext
       );
     }
   }
-
   /**
    * @When /^I click on the "([^"]*)" link$/
    */
@@ -75,36 +74,55 @@ class FeatureContext extends BehatContext
     $link = $this->crawler->selectLink($arg1)->link();
     $this->crawler = $this->client->click($link);
   }
-
   /**
-   * @Then /^I should redirect to "([^"]*)"$/
+   * @Then /^I should be redirected to "([^"]*)"$/
    */
-  public function iShouldRedirectTo($arg1)
+  public function iShouldBeRedirectedTo($arg1)
   {
-    throw new PendingException();
+    $this->crawler = $this->client ->request("GET", $this->baseURL . $arg1);
+    $response = $this->client->getResponse()->getStatus() === "200";
+    if (!$response) {
+      throw new BehaviorException($this->baseURL . $arg1 . " did not respond with a 200 status");
+    }
   }
 
   /**
-   * @When /^I fill the "([^"]*)" input$/
+   * @When /^I fill the form like:$/
    */
-  public function iFillTheInput($arg1)
+  public function iFillTheFormLike(TableNode $table)
   {
-    throw new PendingException();
+    $assertIsNotEmpty = true;
+    $this->table = $table;
+    foreach($table->getHash() as $row) {
+      $assertIsNotEmpty = !empty($row["costume-name"]) ||
+        !empty($row["costume-tokens"]) ||
+        !empty($row["costume-tippername"])
+        ;
+    }
+    if (!$assertIsNotEmpty) {
+        return new BehaviorException("A field is empty");
+    }
   }
-
-  /**
-   * @Given /^I push the "([^"]*)" button$/
-   */
-  public function iPushTheButton($arg1)
-  {
-    throw new PendingException();
-  }
-
   /**
    * @Then /^I Should see a notification$/
    */
   public function iShouldSeeANotification()
   {
-    throw new PendingException();
+    foreach($this->table->getHash() as $row) {
+    $form = $this->crawler->selectButton("add a costume")
+        ->form([
+          "costume-name"        => $row["costume-name"],
+          "costume-tokens"      => $row["costume-tokens"],
+          "costume-tippername"  => $row["costume-tippername"]
+        ]);
+    }
+    $this->crawler    = $this->client->submit($form);
+    $notification     = $this->crawler->filter("body > div.notification");
+    if (trim($notification->text()) !== "The costume have been added.") {
+      throw new BehaviorException("the costume have not been added.");
+    }
+    if($notification->text() === "Could not create the costume. Please try again later.") {
+      throw new BehaviorException("Nor the submit post have not been reached, or the sql query had an error");
+    }
   }
 }

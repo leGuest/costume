@@ -11,8 +11,8 @@ Feature: costumes
 
   Scenario: visitor add a costume
     Given I am on "/costume/add"
-    When I fill the "name" input
-    And I fill the "tokens" input
-    And I push the "submit" button
+    When I fill the form like:
+      | costume-name | costume-tokens | costume-tippername |
+      | Sailor Moon  | 100            | John               |
     Then I Should see a notification
 

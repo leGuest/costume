@@ -28,5 +28,12 @@ $app->get('costume/add', function () use($app) {
   $controller = new App\Controllers\CostumeController($model, $app);
   return $controller->create();
 });
+$app->post('costume/add', function () use ($app) {
+  $model = new App\Models\CostumeModel($app["pdo"]);
+  $posts = !(empty($_POST))? $_POST: false;
+  $controller = new App\Controllers\CostumeController($model, $app);
+  return $controller->add($posts);
+
+});
 
 $app->run();
