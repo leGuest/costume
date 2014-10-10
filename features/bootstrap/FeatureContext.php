@@ -24,10 +24,11 @@ class FeatureContext extends BehatContext
    * You can also pass arbitrary arguments to the
    * context constructor through behat.yml.
    */
-  public function __construct()
+  public function __construct(array $parameters)
   {
     $this->client = new Client();
     $this->baseURL = "http://127.0.0.1:8080/costumes/web";
+    $this->useContext('TipContext', new TipContext($parameters));
   }
 
   /**
@@ -35,7 +36,7 @@ class FeatureContext extends BehatContext
    */
   public function iAmOn($arg1)
   {
-    $this->crawler = $this->client ->request("GET", $this->baseURL . $arg1);
+    $this->crawler = $this->client->request("GET", $this->baseURL . $arg1);
     $response = $this->client->getResponse()->getStatus() === "200";
     if (!$response) {
       throw new BehaviorException($arg1 . " did not respond with a 200 status");

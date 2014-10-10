@@ -14,6 +14,7 @@
       {% endif %}
       </td>
       <td>{{ costume.tokens }}</td>
+      <td><a href="{{ app.request.getBaseURL()}}/costume/tip/{{ costume.hash_id }}" class="costume--tip">add a tip</a></td>
     </tr>
   {% endfor %}
   </table>
@@ -21,4 +22,4 @@
   <div>No costumes to show</div>
 {% endif %}
 
-<a href="./costume/add">add costume</a>
+<a href="{{ app.request.getBaseURL()}}/costume/add">add costume</a>

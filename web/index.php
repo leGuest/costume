@@ -19,21 +19,21 @@ $app->register(new Silex\Provider\TwigServiceProvider, array(
 ));
 
 $app->get('/', function() use($app) {
-  $model = new App\Models\CostumeModel($app["pdo"]);
-  $controller = new App\Controllers\CostumeController($model, $app);
-  return $controller->read();
+  $controller   = new App\Controllers\ReadCostumeController($app);
+  $costumeList  = $controller->readAll();
+  $page         = new App\Controllers\PageController($app);
+  return $page->indexAction($costumeList);
 });
 $app->get('costume/add', function () use($app) {
-  $model = new App\Models\CostumeModel($app["pdo"]);
-  $controller = new App\Controllers\CostumeController($model, $app);
-  return $controller->create();
+  $controller = new App\Controllers\PageController($app);
+  return $controller->addCostumeAction();
 });
 $app->post('costume/add', function () use ($app) {
-  $model = new App\Models\CostumeModel($app["pdo"]);
   $posts = !(empty($_POST))? $_POST: false;
-  $controller = new App\Controllers\CostumeController($model, $app);
+  $controller = new App\Controllers\AddCostumeController($app);
   return $controller->add($posts);
-
 });
-
+$app->get('costume/tip/{hash}', function ($hash) use ($app) {
+  return $hash;
+});
 $app->run();

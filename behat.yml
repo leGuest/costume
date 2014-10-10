@@ -3,3 +3,4 @@ extensions:
     Behat\MinkExtension\Extension:
         base_url: 'http://127.0.0.1:8080/costumes/web/index.php'
         goutte: ~
+
