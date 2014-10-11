@@ -25,7 +25,10 @@ class PageController{
       "costumeName" => $costume->name,
       "costumeHash"        => $hash
     ]);
+  }
 
+  public function registerTipperAction() {
+    return $this->app["twig"]->render("TipperRegister.twig");
   }
 }
 

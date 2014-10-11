@@ -4,8 +4,17 @@ INSERT INTO costume
 VALUES ("Sailor Moon", "shgbvb35");
 
 INSERT INTO tipper
-(name)
-VALUES ("John");
+(name, mfcname, mail, bag, password, ip, created_at, updated_at)
+VALUES (
+  "John",
+  "kljhghu654az3g1",
+  "John@doe.org",
+  "adqdsf654z8a7r32zea1t",
+  "za4rg653qsg4567a3zer41fq87er32",
+  "kqsdf16s5f4qs6ze2e1aze3r24az65",
+  "2014-08-12 12:15:20",
+  "2014-08-12 12:15:20"
+);
 
 INSERT INTO  tipper_transaction
 (id_tipper, id_costume, tokens_amount)

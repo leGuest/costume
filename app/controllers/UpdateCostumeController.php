@@ -13,6 +13,10 @@ class UpdateCostumeController {
     $this->app   = $app;
   }
   public function update($post, $hash) {
+    $notification = [
+      "className" => "error",
+      "message"   => "Could not add the tip. Please try again later."
+    ];
     if (isset($post["costume-add-submit"])) {
       $costumeTokens      = mysql_escape_string((string)(int)$post["costume-add-tokens"]);
       $costumeTipperName  = mysql_escape_string((string) $post["costume-add-tippername"]);;

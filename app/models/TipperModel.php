@@ -1,6 +1,5 @@
 <?php
 namespace App\Models;
-
 use PDO;
 
 class TipperModel {
@@ -30,6 +29,41 @@ class TipperModel {
       $statement = $this->pdo->prepare($query);
       $statement->execute([
         "name"    => $tipper,
+      ]);
+      return $this->pdo->lastInsertId();
+    }
+  }
+  public function register($SID, $name, $mfcname, $mail, $password, $ip) {
+    $query = "
+      SELECT COUNT(*)
+      FROM tipper
+      WHERE name LIKE :name
+      ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "name"    => $name
+    ]);
+    $tipper = $statement->fetch(PDO::FETCH_NUM);
+    if((int)$tipper[0] > 0) {
+      return false;
+    } else {
+      $query = "
+        INSERT INTO tipper
+        (bag, name, mfcname, mail, password, created_at, updated_at, ip)
+        VALUES (:bag, :name, :mfcname, :mail, :password, :created_at, :updated_at, :ip)
+        ";
+      $now  = new \DateTime();
+      $now  = $now->format("Y-m-d h:i:s");
+      $statement = $this->pdo->prepare($query);
+      $statement->execute([
+        "bag"           => $SID,
+        "name"          => $name,
+        "mfcname"       => $mfcname,
+        "mail"          => $mail,
+        "password"      => $password,
+        "created_at"    => $now,
+        "updated_at"    => $now,
+        "ip"            => $ip
       ]);
       return $this->pdo->lastInsertId();
     }

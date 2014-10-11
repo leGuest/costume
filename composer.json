@@ -13,7 +13,8 @@
     "behat/mink-extension": "*",
     "behat/mink-goutte-driver": "*",
     "fabpot/goutte": "*",
-    "filp/whoops": "*"
+    "filp/whoops": "*",
+    "opis/session": "2.1.*"
   },
   "config":  {
     "bin-dir": "bin"

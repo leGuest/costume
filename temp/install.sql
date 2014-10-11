@@ -6,7 +6,14 @@ PRAGMA foreign_keys;
 -- Create tables
 CREATE TABLE tipper (
   id integer unique primary key autoincrement,
-  name varchar(255)
+  name varchar(255),
+  mfcname varchar(255),
+  mail text,
+  bag varchar(255),
+  password text,
+  ip text,
+  created_at varchar(255),
+  updated_at varchar(255)
 );
 
 CREATE TABLE costume (

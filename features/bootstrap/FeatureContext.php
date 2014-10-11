@@ -109,7 +109,8 @@ class FeatureContext extends BehatContext
   {
     $notification     = $this->crawler->filter("body > div.notification");
     if (trim($notification->text()) !== $arg1) {
-      throw new BehaviorException("the notification have not been shown.");
+      throw new BehaviorException("the notification have not been shown.
+        Seen instead : ". trim($notification->text()));
     }
   }
 }

@@ -3,6 +3,7 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use Silex\Extension\TwigExtension;
+use Opis\Session\Session;
 
 $app = new Silex\Application();
 $env = "dev";
@@ -41,6 +42,18 @@ $app->post('costume/tip/{hash}', function ($hash) use ($app) {
   $controller = new App\Controllers\UpdateCostumeController($app);
   $posts = !(empty($_POST))? $_POST: false;
   return $controller->update($posts, $hash);
-
 });
+$app->get('account/register', function () use ($app) {
+  $controller = new App\Controllers\PageController($app);
+  return $controller->registerTipperAction();
+});
+$app->post('account/register', function () use ($app) {
+  $session = new Session();
+  $session->clear();
+  $posts = !(empty($_POST))? $_POST: false;
+  $ip = \hash('SHA256', $_SERVER["REMOTE_ADDR"]);
+  $controller = new App\Controllers\RegisterTipperController($app);
+  return $controller->register($posts, $session, $ip);
+});
+
 $app->run();

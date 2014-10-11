@@ -1,0 +1,23 @@
+{# @TODO :
+  refactor in form.css
+#}
+<style>
+  label, input, div[classname*="costume--input--*"]{
+    display:block;
+  }
+</style>
+<form action="{{ app.request.getBaseURL()}}/account/register" method="post">
+  <label for="what is your username">what is your username :</label>
+  <input type="text" name="register-name" id="register-name" value="" />
+
+  <label for="specify your mfc username">specify your mfc username :</label>
+  <input type="text" name="register-mfcname" id="register-mfcname" value="" />
+
+  <label for="what is your mail">what is your mail?</label>
+  <input type="email" name="register-mail" id="register-mail" value="" />
+
+  <label for="secure yourself by filling a password">secure yourself by filling a password :</label>
+  <input type="password" name="register-password" id="register-password" value="" />
+
+  <input type="submit" name="register-submit" id="register-submit" value="create account" />
+</form>
