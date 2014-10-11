@@ -9,7 +9,6 @@ class TransactionModel {
     $this->pdo = $pdo;
   }
   public function create($tipper, $costume, $tokens) {
-    // transaction
     $query = "
       INSERT INTO tipper_transaction
       (id_tipper, id_costume, tokens_amount)

@@ -86,38 +86,29 @@ class FeatureContext extends BehatContext
       throw new BehaviorException($this->baseURL . $arg1 . " did not respond with a 200 status");
     }
   }
-
   /**
-   * @When /^I fill the form like:$/
+   * @When /^I fill the "([^"]*)" form like:$/
    */
-  public function iFillTheFormLike(TableNode $table)
+  public function iFillTheFormLike2($arg1, TableNode $table)
   {
     $assertIsNotEmpty = true;
     $this->table = $table;
-    foreach($table->getHash() as $row) {
-      $assertIsNotEmpty = !empty($row["costume-name"]) ||
-        !empty($row["costume-tokens"]) ||
-        !empty($row["costume-tippername"])
-        ;
+    foreach($table->getHash() as $row => $key) {
+      $assertIsNotEmpty = !empty($row[$key]);
     }
     if (!$assertIsNotEmpty) {
-        return new BehaviorException("A field is empty");
+      return new BehaviorException("A field is empty");
     }
+    $form = $this->crawler
+      ->selectButton("$arg1")
+      ->form($this->table->getHash());
+    $this->crawler    = $this->client->submit($form);
   }
   /**
    * @Then /^I Should see a notification$/
    */
   public function iShouldSeeANotification()
   {
-    foreach($this->table->getHash() as $row) {
-    $form = $this->crawler->selectButton("add a costume")
-        ->form([
-          "costume-name"        => $row["costume-name"],
-          "costume-tokens"      => $row["costume-tokens"],
-          "costume-tippername"  => $row["costume-tippername"]
-        ]);
-    }
-    $this->crawler    = $this->client->submit($form);
     $notification     = $this->crawler->filter("body > div.notification");
     if (trim($notification->text()) !== "The costume have been added.") {
       throw new BehaviorException("the costume have not been added.");

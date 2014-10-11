@@ -19,7 +19,7 @@ class TipperModel {
       "name" => $tipper
     ]);
     $hasTipper = $statement->fetch(PDO::FETCH_OBJ);
-    if(count($hasTipper) > 0) {
+    if($hasTipper && count($hasTipper) > 0) {
       $tipper = $hasTipper->id;
     } else {
       $query = "

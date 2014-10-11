@@ -34,6 +34,13 @@ $app->post('costume/add', function () use ($app) {
   return $controller->add($posts);
 });
 $app->get('costume/tip/{hash}', function ($hash) use ($app) {
-  return $hash;
+  $controller = new App\Controllers\PageController($app);
+  return $controller->addTipToCostumeAction($hash);
+});
+$app->post('costume/tip/{hash}', function ($hash) use ($app) {
+  $controller = new App\Controllers\UpdateCostumeController($app);
+  $posts = !(empty($_POST))? $_POST: false;
+  return $controller->update($posts, $hash);
+
 });
 $app->run();

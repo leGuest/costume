@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\CostumeModel;
+
 class PageController{
   public function __construct($app) {
     $this->app   = $app;
@@ -14,6 +16,16 @@ class PageController{
 
   public function addCostumeAction() {
     return $this->app["twig"]->render("CostumeAdd.twig");
+  }
+
+  public function addTipToCostumeAction($hash) {
+    $costumeModel = new CostumeModel($this->app["pdo"]);
+    $costume = $costumeModel->getFromHash($hash);
+    return $this->app["twig"]->render("CostumeUpdate.twig", [
+      "costumeName" => $costume->name,
+      "costumeHash"        => $hash
+    ]);
+
   }
 }
 

@@ -1,0 +1,27 @@
+{# @TODO :
+  refactor in form.css
+#}
+<style>
+  label, input, div[classname*="costume--input--*"]{
+    display:block;
+  }
+</style>
+
+<form action="{{ app.request.getBaseURL()}}/costume/tip/{{costumeHash}}" method="post">
+  {# @TODO:
+      add security_token
+  #}
+
+  <label for="costume">costume : </label>
+  {% if costumeName %}
+    <div> {{  costumeName }} </div>
+  {%  endif %}
+
+  <label for="amount of tokens to add">amount of tokens to add:</label>
+  <input type="text" name="costume-add-tokens" id="costume-add-tokens" value="" />
+
+  <label for="what is your mfc username">what is your mfc username</label>
+  <input type="text" name="costume-add-tippername" id="costume-add-tippername" value="" />
+
+  <input type="submit" name="costume-add-submit" id="costume-add-submit" value="tip the costume" />
+</form>

@@ -7,9 +7,9 @@ Feature: tips
 
   Scenario: vistor tip a costume
     Given I am on "/costume/tip/shgbvb35"
-    When I fill the form like:
-      | costume-name | costume-tokens | customer-tippername |
-      | Sailor Moon  | 250            | James               |
-    Then I should see a notification
+    When I fill the "tip the costume" form like:
+      | costume-add-tokens  | costume-add-tippername  |
+      | 250                 | James               |
+    Then I Should see a notification
     And the "costume tokens" of the "costume name" should be updated
 

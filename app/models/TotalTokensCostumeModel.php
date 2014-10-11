@@ -32,7 +32,7 @@ class TotalTokensCostumeModel {
       "costume"    => $costume,
     ]);
     $hasTotalTokens = $statement->fetch(PDO::FETCH_OBJ);
-    if(count($hasTotalTokens) > 0) {
+    if($hasTotalTokens && count($hasTotalTokens) > 0) {
       $query = "
         UPDATE total_token_costume
         SET total = :total

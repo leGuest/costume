@@ -17,6 +17,18 @@ class CostumeModel {
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_OBJ);
   }
+  public function getFromHash($hash) {
+    $query = "
+      SELECT id, name
+      FROM costume
+      WHERE hash_id = :hash
+      ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "hash" => $hash
+    ]);
+    return $statement->fetch(PDO::FETCH_OBJ);
+  }
   public function create($name)
   {
     $query = "
@@ -29,7 +41,7 @@ class CostumeModel {
       "name" => $name
     ]);
     $costume = $statement->fetch(PDO::FETCH_OBJ);
-    if(count($costume) > 0) {
+    if($costume && count($costume) > 0) {
       return $costume->id;
     }
     $query = "
