@@ -10,6 +10,5 @@ Feature: tips
     When I fill the "tip the costume" form like:
       | costume-add-tokens  | costume-add-tippername  |
       | 250                 | James               |
-    Then I Should see a notification
-    And the "costume tokens" of the "costume name" should be updated
+    Then I Should see a notification "The tip have been added."
 

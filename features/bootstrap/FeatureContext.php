@@ -42,7 +42,6 @@ class FeatureContext extends BehatContext
       throw new BehaviorException($arg1 . " did not respond with a 200 status");
     }
   }
-
   /**
    * @Then I should see a list of costumes
    */
@@ -89,32 +88,28 @@ class FeatureContext extends BehatContext
   /**
    * @When /^I fill the "([^"]*)" form like:$/
    */
-  public function iFillTheFormLike2($arg1, TableNode $table)
+  public function iFillTheFormLike($arg1, TableNode $table)
   {
     $assertIsNotEmpty = true;
-    $this->table = $table;
-    foreach($table->getHash() as $row => $key) {
-      $assertIsNotEmpty = !empty($row[$key]);
+    foreach($table->getHash() as $row ) {
+      $assertIsNotEmpty = !empty($row);
     }
     if (!$assertIsNotEmpty) {
-      return new BehaviorException("A field is empty");
+      throw new BehaviorException("A field is empty");
     }
     $form = $this->crawler
       ->selectButton("$arg1")
-      ->form($this->table->getHash());
+      ->form($table->getHash()[0]);
     $this->crawler    = $this->client->submit($form);
   }
   /**
-   * @Then /^I Should see a notification$/
+   * @Then /^I Should see a notification "([^"]*)"$/
    */
-  public function iShouldSeeANotification()
+  public function iShouldSeeANotification($arg1)
   {
     $notification     = $this->crawler->filter("body > div.notification");
-    if (trim($notification->text()) !== "The costume have been added.") {
-      throw new BehaviorException("the costume have not been added.");
-    }
-    if($notification->text() === "Could not create the costume. Please try again later.") {
-      throw new BehaviorException("Nor the submit post have not been reached, or the sql query had an error");
+    if (trim($notification->text()) !== $arg1) {
+      throw new BehaviorException("the notification have not been shown.");
     }
   }
 }

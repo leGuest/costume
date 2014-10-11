@@ -46,20 +46,4 @@ class TipContext extends BehatContext
       }
     });
   }
-
-  /**
-   * @Then /^I should see a notification$/
-   */
-  public function iShouldSeeANotification2()
-  {
-    throw new PendingException();
-  }
-
-  /**
-   * @Given /^the "([^"]*)" of the "([^"]*)" should be updated$/
-   */
-  public function theOfTheShouldBeUpdated($arg1, $arg2)
-  {
-    throw new PendingException();
-  }
 }
