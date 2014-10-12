@@ -18,7 +18,12 @@ $app->register(new Silex\Provider\TwigServiceProvider, array(
   "twig.path" => __DIR__ . "/../app/views"
   //, "twig.options" => array("cache" => __DIR__ . "/../cache/twig")
 ));
-
+$app["session"] = new Session();
+$app->before(function () use ($app) {
+  if ($app["session"] && $app["session"]->get("tippername")) {
+    echo "Welcome, " . $app["session"]->get("tippername");
+  }
+});
 $app->get('/', function() use($app) {
   $controller   = new App\Controllers\ReadCostumeController($app);
   $costumeList  = $controller->readAll();
@@ -48,12 +53,13 @@ $app->get('account/register', function () use ($app) {
   return $controller->registerTipperAction();
 });
 $app->post('account/register', function () use ($app) {
-  $session = new Session();
-  $session->clear();
   $posts = !(empty($_POST))? $_POST: false;
   $ip = \hash('SHA256', $_SERVER["REMOTE_ADDR"]);
   $controller = new App\Controllers\RegisterTipperController($app);
-  return $controller->register($posts, $session, $ip);
+  $controller->setSession($app["session"]);
+  $controller->register($posts, $ip);
+  $app["session"] = $controller->getSession();
+  return $controller->render();
 });
 $app->get('account/login', function () use ($app) {
   $controller = new App\Controllers\PageController($app);
@@ -62,7 +68,16 @@ $app->get('account/login', function () use ($app) {
 $app->post('account/login', function () use ($app) {
   $posts = !(empty($_POST))? $_POST: false;
   $controller = new App\Controllers\LoginTipperController($app);
-  return $controller->login($posts);
+  $controller->setSession($app["session"]);
+  $controller->login($posts);
+  $app["session"] = $controller->getSession();
+  return $controller->render();
 });
 
+$app->get("account/logout", function () use ($app) {
+  $controller = new App\Controllers\LogoutTipperController($app);
+  $controller->setSession($app["session"]);
+  $app["session"] = $controller->logout();
+  return $controller->render();
+});
 $app->run();

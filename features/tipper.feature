@@ -22,3 +22,8 @@ Feature: tipper
       | login-name | login-password |
       | Martin     | james123       |
     Then I Should see a notification "Welcome back, Martin"
+
+  Scenario: visitor logout
+    Given I am on "/"
+    When I click on the "logout" link
+    Then I Should see a notification "You have successfully logged out"

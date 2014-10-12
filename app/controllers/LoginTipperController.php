@@ -8,12 +8,18 @@ use Opis\Session\Session;
 class LoginTipperController {
   private $app;
   private $session;
+  private $notification;
   public function __construct($app) {
     $this->app = $app;
   }
-
+  public function setSession($session) {
+    $this->session = $session;
+  }
+  public function getSession() {
+    return $this->session;
+  }
   public function login($post) {
-    $notification = [
+    $this->notification = [
       "className" => "error",
       "message"   => "Could not login. Please try again later."
     ];
@@ -23,22 +29,24 @@ class LoginTipperController {
       $tipperModel        = new TipperModel($this->app["pdo"]);
       $tipper             = $tipperModel->login($loginName, $loginPassword);
       if ($tipper && $tipper->name && $tipper->mail) {
-        $this->session = new Session();
         $this->session->set("tippername", $tipper->name);
         $this->session->set("tippermail", $tipper->mail);
-        $notification = [
+        $this->app["session"] = $this->session;
+        $this->notification = [
           "className" => "success",
           "message"   => "Welcome back, " . $this->session->get("tippername")
         ];
       } else {
-        $notification = [
+        $this->notification = [
           "className" => "error",
           "message"   => "Could not find user"
         ];
       }
     }
+  }
+  public function render() {
     return $this->app["twig"]->render("Notification.twig", [
-      "notification" => $notification
+      "notification" => $this->notification
     ]);
   }
 }

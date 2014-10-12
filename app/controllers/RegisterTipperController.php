@@ -6,21 +6,24 @@ use Opis\Session\Session;
 
 class RegisterTipperController {
   private $app;
+  private $session;
+  private $notification;
 
   public function __construct($app) {
     $this->app = $app;
   }
-  public function before($session) {
+  public function setSession($session) {
     $this->session = $session;
   }
-
-  public function register($post, $session, $ip) {
-    $notification = [
+  public function getSession() {
+    return $this->session;
+  }
+  public function register($post, $ip) {
+    $this->notification = [
       "className" => "error",
       "message"   => "Could not register. Please try again later."
     ];
     if ($post["register-submit"]) {
-      $this->before($session);
       $this->session->set("tippername", trim((string)$post["register-name"]));
       $this->session->set("tippermail", trim((string)$post["register-mail"]));
       $TipperModel = new TipperModel($this->app["pdo"]);
@@ -33,21 +36,21 @@ class RegisterTipperController {
         $ip
       );
       if ($tipper === false) {
-        $notification = [
+        $this->notification = [
           "className" => "error",
           "message"   => "Name or MfcName already took."
         ];
       } else {
-        $notification = [
+        $this->notification = [
           "className" => "success",
           "message"   => "You have been registered as " . $this->session->get("tippername")
         ];
       }
     }
+  }
+  public function render() {
     return $this->app["twig"]->render("Notification.twig", [
-      "notification" => $notification
+      "notification" => $this->notification
     ]);
   }
 }
-
-
