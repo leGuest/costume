@@ -55,5 +55,14 @@ $app->post('account/register', function () use ($app) {
   $controller = new App\Controllers\RegisterTipperController($app);
   return $controller->register($posts, $session, $ip);
 });
+$app->get('account/login', function () use ($app) {
+  $controller = new App\Controllers\PageController($app);
+  return $controller->loginTipperAction();
+});
+$app->post('account/login', function () use ($app) {
+  $posts = !(empty($_POST))? $_POST: false;
+  $controller = new App\Controllers\LoginTipperController($app);
+  return $controller->login($posts);
+});
 
 $app->run();

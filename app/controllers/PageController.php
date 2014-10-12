@@ -30,5 +30,10 @@ class PageController{
   public function registerTipperAction() {
     return $this->app["twig"]->render("TipperRegister.twig");
   }
+
+  public function loginTipperAction () {
+    return $this->app["twig"]->render("TipperLogin.twig");
+
+  }
 }
 

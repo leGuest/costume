@@ -68,4 +68,19 @@ class TipperModel {
       return $this->pdo->lastInsertId();
     }
   }
+  public function login($name, $password) {
+    $query = "
+      SELECT name, mail
+      FROM tipper
+      WHERE name = :name
+      AND password = :password
+    ";
+    $password     = \hash('SHA256', $password);
+    $statement    = $this->pdo->prepare($query);
+    $statement->execute([
+      "password"  => $password,
+      "name"      => $name
+    ]);
+    return $statement->fetch(PDO::FETCH_OBJ);
+  }
 }

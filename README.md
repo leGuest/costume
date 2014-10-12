@@ -1,4 +1,12 @@
 costume
-=======
+====
 
-costume manager 
+Install
+=====
+
+``make install``
+
+Run tests
+====
+
+``make test``
