@@ -16,3 +16,4 @@ Feature: costumes
       | Sailor Moon  | 100            | John               |
     Then I Should see a notification "The costume have been added."
 
+  

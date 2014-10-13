@@ -14,4 +14,5 @@ reset:
 	sqlite3 database/costumes.sqlite < temp/reset.sql
 	sqlite3 database/costumes.sqlite < temp/install.sql
 	sqlite3 database/costumes.sqlite < temp/dummydata.sql
+	sqlite3 database/costumes.sqlite < temp/adminaccount.sql
 

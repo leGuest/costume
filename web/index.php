@@ -25,10 +25,12 @@ $app->before(function () use ($app) {
   }
 });
 $app->get('/', function() use($app) {
-  $controller   = new App\Controllers\ReadCostumeController($app);
-  $costumeList  = $controller->readAll();
-  $page         = new App\Controllers\PageController($app);
-  return $page->indexAction($costumeList);
+  $controller         = new App\Controllers\ReadCostumeController($app);
+  $costumeList        = $controller->readAll();
+  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin            = $isAdminController->isAdmin($app["session"]);
+  $page               = new App\Controllers\PageController($app);
+  return $page->indexAction($costumeList, $isAdmin);
 });
 $app->get('costume/add', function () use($app) {
   $controller = new App\Controllers\PageController($app);
@@ -79,5 +81,15 @@ $app->get("account/logout", function () use ($app) {
   $controller->setSession($app["session"]);
   $app["session"] = $controller->logout();
   return $controller->render();
+});
+$app->get("costume/approve/{hash}", function ($hash) use ($app) {
+  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin            = $isAdminController->isAdmin($app["session"]);
+  $controller         = new App\Controllers\ApproveCostumeController($app);
+  $controller->approve($isAdmin, $hash);
+  $controller         = new App\Controllers\ReadCostumeController($app);
+  $costumeList        = $controller->readAll();
+  $page               = new App\Controllers\PageController($app);
+  return $page->indexAction($costumeList, $isAdmin);
 });
 $app->run();

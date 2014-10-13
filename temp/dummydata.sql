@@ -1,7 +1,23 @@
 -- Insert dummy data
+INSERT INTO status_costume
+(id)
+VALUES (1);
+
+INSERT INTO status_costume
+(status)
+VALUES ("published");
+
+INSERT INTO status_costume
+(status)
+VALUES ("denied");
+
 INSERT INTO costume
 (name, hash_id)
 VALUES ("Sailor Moon", "shgbvb35");
+
+INSERT INTO crew
+(id, name)
+VALUES (1, "user");
 
 INSERT INTO tipper
 (name, mfcname, mail, bag, password, ip, created_at, updated_at)

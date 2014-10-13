@@ -10,8 +10,9 @@ class CostumeModel {
   }
   public function getAll() {
     $query = "
-      SELECT id, name , image, hash_id
+      SELECT id, name , image, hash_id, id_status
       FROM costume
+      ORDER BY id_status DESC
       ";
     $statement = $this->pdo->prepare($query);
     $statement->execute();
@@ -55,5 +56,17 @@ class CostumeModel {
       "hash_id" => hash("crc32b", $name)
     ]);
     return $this->pdo->lastInsertId();
+  }
+  public function approvePending($hash_id) {
+    $query = "
+      UPDATE costume
+      SET id_status = 2
+      WHERE hash_id = :hash_id
+    ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "hash_id" => $hash_id
+    ]);
+    return $statement->fetch(PDO::FETCH_OBJ);
   }
 }

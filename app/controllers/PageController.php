@@ -8,9 +8,10 @@ class PageController{
     $this->app   = $app;
   }
 
-  public function indexAction($costumeList) {
+  public function indexAction($costumeList, $isAdmin) {
     return $this->app["twig"]->render("CostumeList.twig", [
-      "costumes" => $costumeList
+      "costumes"  => $costumeList,
+      "admin"     => $isAdmin || false
     ]);
   }
 

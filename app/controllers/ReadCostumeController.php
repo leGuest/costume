@@ -30,7 +30,8 @@ class ReadCostumeController {
         "name"          => $costume->name,
         "hash_id"       => $costume->hash_id,
         "image"         => $costume->image,
-        "tokens"        => $totalTokens
+        "tokens"        => $totalTokens,
+        "id_status"     => $costume->id_status
       ];
     }
     foreach($costumeResult as $key => $row) {

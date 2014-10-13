@@ -113,4 +113,26 @@ class FeatureContext extends BehatContext
         Seen instead : ". trim($notification->text()));
     }
   }
+  /**
+   * @Then /^I should see "([^"]*)" like:$/
+   */
+  public function iShouldSeeLike($arg1, TableNode $table)
+  {
+    $tableDom     = $this->crawler->filter("body > " . $arg1)->children()->filter("td");
+    $tempArr      = [];
+    $counter      = 0;
+    foreach($table->getHash()[0] as $val) {
+      $tempArr[] = $val;
+    }
+    $tablehash = $tempArr;
+    while($tableDom->eq($counter)->text() !== $tableDom->last()->text())
+    {
+      if (isset($tablehash[$counter])) {
+        if (trim($tableDom->eq($counter)->text()) !== $tablehash[$counter]) {
+            throw new BehaviorException("the row data " . $tableDom->eq($counter)->text() ." cannot be found.");
+        }
+      }
+      $counter++;
+    }
+  }
 }
