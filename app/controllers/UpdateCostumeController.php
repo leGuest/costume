@@ -27,8 +27,9 @@ class UpdateCostumeController {
       $tipper             = $tipperModel->create($costumeTipperName, $costumeId);
       $transactionModel   = new TransactionModel($this->app["pdo"]);
       $transaction        = $transactionModel->create($tipper, $costumeId, $costumeTokens);
+      $approvedTokens     = $this->getAllTokensApprovedForCostume($costumeId);
       $totalTokensCostumeModel = new TotalTokensCostumeModel($this->app["pdo"]);
-      $totalTokensCostume = $totalTokensCostumeModel->create($costumeId, $costumeTokens);
+      $totalTokensCostume = $totalTokensCostumeModel->create($costumeId, $approvedTokens);
       $notification = [
         "className" => "success",
         "message"   => "The tip have been added."
@@ -37,5 +38,16 @@ class UpdateCostumeController {
     return $this->app["twig"]->render("Notification.twig", [
       "notification" => $notification
     ]);
+  }
+  public function getAllTokensApprovedForCostume($costumeId) {
+    $transactionModel   = new TransactionModel($this->app["pdo"]);
+    $approvedTokens     = $transactionModel->getAllApprovedForCostume($costumeId);
+    $result = 0;
+    foreach ($approvedTokens as $key => $val) {
+      if ($key === "tokens_amount") {
+        $result += $val;
+      }
+    }
+    return $result;
   }
 }

@@ -23,6 +23,31 @@ class TransactionModel {
     ]);
     return $statement->fetch(PDO::FETCH_OBJ);
   }
+  public function getFromId($id){
+    $query = "
+      SELECT id_tipper, id_costume, tokens_amount
+      FROM tipper_transaction
+      WHERE id = :id
+    ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "id"    => $id
+    ]);
+    return $statement->fetch(PDO::FETCH_OBJ);
+  }
+  public function getAllApprovedForCostume($costume) {
+    $query = "
+      SELECT id_tipper, id_costume, tokens_amount
+      FROM tipper_transaction
+      WHERE id_status = 2
+      AND id_costume = :costume
+    ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "costume"    => $costume
+    ]);
+    return $statement->fetchAll(PDO::FETCH_OBJ);
+  }
   public function getAll() {
     $query = "
       SELECT tipper_transaction.id,
@@ -43,6 +68,18 @@ class TransactionModel {
     $query = "
         UPDATE tipper_transaction
         SET id_status = 2
+        WHERE id = :id
+    ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "id"      => $id
+    ]);
+    return $id;
+  }
+  public function disapprovePending($id) {
+    $query = "
+        UPDATE tipper_transaction
+        SET id_status = 3
         WHERE id = :id
     ";
     $statement = $this->pdo->prepare($query);
