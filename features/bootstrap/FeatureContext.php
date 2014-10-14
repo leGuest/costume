@@ -28,7 +28,6 @@ class FeatureContext extends BehatContext
   {
     $this->client = new Client();
     $this->baseURL = "http://127.0.0.1:8080/costumes/web";
-    $this->useContext('TipContext', new TipContext($parameters));
   }
 
   /**
@@ -128,11 +127,29 @@ class FeatureContext extends BehatContext
     while($tableDom->eq($counter)->text() !== $tableDom->last()->text())
     {
       if (isset($tablehash[$counter])) {
-        if (trim($tableDom->eq($counter)->text()) !== $tablehash[$counter]) {
-            throw new BehaviorException("the row data " . $tableDom->eq($counter)->text() ." cannot be found.");
+        if (trim($tableDom->eq($counter)->text()) !== trim($tablehash[$counter])) {
+          throw new BehaviorException("the row data " . $tableDom->eq($counter)->text() ." cannot be found.");
         }
       }
       $counter++;
     }
+  }
+  /**
+   * @Given /^I click on the "([^"]*)" link of id "([^"]*)" marked as "([^"]*)"$/
+   */
+  public function iClickOnTheLinkOfIdMarkedAs($arg1, $arg2, $arg3)
+  {
+    $this->crawler = $this->client
+      ->request("GET", $this->baseURL );
+    $this->hash = $arg2;
+    $this->content = $arg3;
+    $this->crawler->filter("a")->each(function ($node, $i) {
+      if (
+        $node->text() === $this->content &&
+        $node->link()->getUri() === $this->baseURL . $this->hash
+      ) {
+        $this->client->click($node->link());
+      }
+    });
   }
 }

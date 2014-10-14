@@ -3,7 +3,7 @@ install:
 	composer install
 	mkdir -p database/ cache/
 	chmod -R 777 database/ cache/
-	touch costumes.sqlite
+	touch databases/costumes.sqlite
 	make reset
 
 test:

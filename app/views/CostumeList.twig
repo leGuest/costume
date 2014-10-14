@@ -5,7 +5,9 @@
 <a href="{{app.request.getBaseURL()}}/account/register">register</a>
 <a href="{{app.request.getBaseURL()}}/account/login">login</a>
 <a href="{{app.request.getBaseURL()}}/account/logout">logout</a>
-
+{% if admin %}
+  <a href="{{app.request.getBaseURL()}}/transaction">transaction list</a>
+{% endif %}
 
 {% if costumes %}
   <table>

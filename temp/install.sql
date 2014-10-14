@@ -42,15 +42,24 @@ CREATE TABLE costume (
     on update cascade
 );
 
+CREATE TABLE status_tipper_transaction (
+  id integer unique primary key autoincrement,
+  status text default "pending"
+);
+
 CREATE TABLE tipper_transaction (
   id integer primary key,
   id_tipper integer,
   id_costume integer,
   tokens_amount integer,
+  id_status integer default 1,
   foreign key(id_tipper) references tipper(id)
     on delete cascade
     on update cascade,
   foreign key(id_costume) references costume(id)
+    on delete cascade
+    on update cascade,
+  foreign key(id_status) references status_tipper_transaction(id)
     on delete cascade
     on update cascade
 );

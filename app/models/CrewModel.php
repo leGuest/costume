@@ -13,12 +13,12 @@ class CrewModel {
       SELECT COUNT(id)
       FROM tipper
       WHERE name = :name
-      AND `id_crew` = 2
+      AND id_crew = 2
       ";
     $statement = $this->pdo->prepare($query);
     $statement->execute([
       "name" => $tipper
     ]);
-    return $statement->fetch(PDO::FETCH_NUM) > 0;
+    return (int)$statement->fetch(PDO::FETCH_NUM)[0] > 0;
   }
 }

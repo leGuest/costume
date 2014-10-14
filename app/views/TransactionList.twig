@@ -1,0 +1,35 @@
+{% if transactions %}
+  <table>
+    <th>costume</th>
+    <th>tokens</th>
+    <th>tipper</th>
+    <th>status</th>
+    <th>actions</th>
+  {% for transaction in transactions %}
+    <tr>
+      <td>{{ transaction.costume_name }}</td>
+      <td>{{ transaction.tokens_amount }}</td>
+      <td>{{ transaction.tipper_name }}</td>
+      <td>
+        {% if transaction.id_status == 1 %}
+          pending
+        {% elseif transaction.id_status == 2 %}
+          approved
+        {% endif %}
+      </td>
+      <td>
+        <a class="transaction--approve" href="{{ app.request.getBaseURL() }}/transaction/approve/{{ transaction.id }}">approve</a>
+        <a href="{{ app.request.getBaseURL() }}/transaction/discard/{{ transaction.id}}">disapprove</a>
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% else %}
+  {# @TODO
+    js script for redirections
+  #}
+  <script type="text/javascript">
+    window.location.href = "../"
+  </script>
+{% endif %}
+

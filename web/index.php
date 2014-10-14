@@ -92,4 +92,19 @@ $app->get("costume/approve/{hash}", function ($hash) use ($app) {
   $page               = new App\Controllers\PageController($app);
   return $page->indexAction($costumeList, $isAdmin);
 });
+$app->get("transaction/", function () use ($app) {
+  $isAdminController    = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin              = $isAdminController->isAdmin($app["session"]);
+  $page                 = new App\Controllers\PageController($app);
+  return $page->readTransactionAction($isAdmin);
+});
+$app->get("transaction/approve/{id}", function ($id) use ($app) {
+  $isAdminController    = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin              = $isAdminController->isAdmin($app["session"]);
+  $controller           = new App\Controllers\ApproveTransactionController($app);
+  $controller->approve($isAdmin, $id);
+  $page                 = new App\Controllers\PageController($app);
+  return $page->readTransactionAction($isAdmin);
+});
+
 $app->run();

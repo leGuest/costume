@@ -31,10 +31,21 @@ VALUES (
   "2014-08-12 12:15:20",
   "2014-08-12 12:15:20"
 );
+INSERT INTO status_tipper_transaction
+(id)
+VALUES (1);
+
+INSERT INTO status_tipper_transaction
+(id, status)
+VALUES (2, "approved");
 
 INSERT INTO  tipper_transaction
-(id_tipper, id_costume, tokens_amount)
-VALUES (1, 1, 100);
+(id_tipper, id_costume, tokens_amount, id_status)
+VALUES (1, 1, 100, 1);
+
+INSERT INTO  tipper_transaction
+(id_tipper, id_costume, tokens_amount, id_status)
+VALUES (1, 1, 200, 1);
 
 INSERT INTO total_token_costume
 (id_costume, total)

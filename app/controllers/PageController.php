@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Models\CostumeModel;
+use App\Models\TransactionModel;
 
 class PageController{
   public function __construct($app) {
@@ -35,6 +36,17 @@ class PageController{
   public function loginTipperAction () {
     return $this->app["twig"]->render("TipperLogin.twig");
 
+  }
+
+  public function readTransactionAction($isAdmin) {
+    $transactions = false;
+    if ($isAdmin === true) {
+      $transactionModel = new TransactionModel($this->app["pdo"]);
+      $transactions = $transactionModel->getAll();
+    }
+    return $this->app["twig"]->render("TransactionList.twig", [
+      "transactions" => $transactions
+    ]);
   }
 }
 

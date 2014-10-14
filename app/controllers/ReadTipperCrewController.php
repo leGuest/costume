@@ -13,7 +13,7 @@ class ReadTipperCrewController {
     $this->session = $session;
     if ($this->session->id() && $this->session->get("tippername")) {
       $crewModel  = new CrewModel($this->app["pdo"]);
-      $isAdmin    = $crewModel->isAdmin($this->session->get("tippername") || 0);
+      $isAdmin    = $crewModel->isAdmin($this->session->get("tippername"));
       return $isAdmin;
     }
     return false;

@@ -15,5 +15,3 @@ Feature: costumes
       | costume-name | costume-tokens | costume-tippername |
       | Sailor Moon  | 100            | John               |
     Then I Should see a notification "The costume have been added."
-
-  
