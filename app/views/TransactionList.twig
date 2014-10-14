@@ -15,6 +15,8 @@
           pending
         {% elseif transaction.id_status == 2 %}
           approved
+        {% elseif transaction.id_status == 3 %}
+          denied
         {% endif %}
       </td>
       <td>

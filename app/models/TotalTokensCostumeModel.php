@@ -37,7 +37,7 @@ class TotalTokensCostumeModel {
         UPDATE total_token_costume
         SET total = :total
         WHERE id_costume = :costume
-        ";
+      ";
       $statement = $this->pdo->prepare($query);
       $statement->execute([
         "costume"    => $costume,

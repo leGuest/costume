@@ -152,4 +152,19 @@ class FeatureContext extends BehatContext
       }
     });
   }
+  /**
+   * @Given /^I click on the "([^"]*)" "([^"]*)" link$/
+   */
+  public function iClickOnTheLink2($arg1, $arg2)
+  {
+    $this->counter = (int) $arg1 - 1;
+    $this->content = $arg2;
+    $link = $this->crawler->filter("a")->each(function ($node, $i) {
+      if ($i === $this->counter) {
+        if($node->text() === $this->content) {
+          $this->client->click($node->link());
+        }
+      }
+    });
+  }
 }

@@ -107,4 +107,14 @@ $app->get("transaction/approve/{id}", function ($id) use ($app) {
   return $page->readTransactionAction($isAdmin);
 });
 
+$app->get("transaction/discard/{id}", function ($id) use ($app) {
+  $isAdminController    = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin              = $isAdminController->isAdmin($app["session"]);
+  $controller           = new App\Controllers\DisapproveTransactionController($app);
+  $controller->Disapprove($isAdmin, $id);
+  $page                 = new App\Controllers\PageController($app);
+  return $page->readTransactionAction($isAdmin);
+});
+
+
 $app->run();

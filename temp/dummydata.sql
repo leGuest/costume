@@ -39,6 +39,10 @@ INSERT INTO status_tipper_transaction
 (id, status)
 VALUES (2, "approved");
 
+INSERT INTO status_tipper_transaction
+(id, status)
+VALUES (3, "denied");
+
 INSERT INTO  tipper_transaction
 (id_tipper, id_costume, tokens_amount, id_status)
 VALUES (1, 1, 100, 1);
