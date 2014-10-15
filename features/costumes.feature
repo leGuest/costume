@@ -12,6 +12,12 @@ Feature: costumes
   Scenario: visitor add a costume
     Given I am on "/costume/add"
     When I fill the "add a costume" form like:
+      | costume-name  | costume-tokens | costume-tippername |
+      | Hulk          | 100            | James               |
+    Then I Should see a notification "The costume have been added."
+    Given I am on "/costume/add"
+    When I fill the "add a costume" form like:
       | costume-name | costume-tokens | costume-tippername |
       | Sailor Moon  | 100            | John               |
     Then I Should see a notification "The costume have been added."
+

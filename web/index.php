@@ -45,6 +45,36 @@ $app->get('costume/tip/{hash}', function ($hash) use ($app) {
   $controller = new App\Controllers\PageController($app);
   return $controller->addTipToCostumeAction($hash);
 });
+$app->get("costume/approve/{hash}", function ($hash) use ($app) {
+  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin            = $isAdminController->isAdmin($app["session"]);
+  $controller         = new App\Controllers\ApproveCostumeController($app);
+  $controller->approve($isAdmin, $hash);
+  $controller         = new App\Controllers\ReadCostumeController($app);
+  $costumeList        = $controller->readAll();
+  $page               = new App\Controllers\PageController($app);
+  return $page->indexAction($costumeList, $isAdmin);
+});
+$app->get("costume/disapprove/{hash}", function ($hash) use ($app) {
+  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin            = $isAdminController->isAdmin($app["session"]);
+  $controller         = new App\Controllers\DisapproveCostumeController($app);
+  $controller->disapprove($isAdmin, $hash);
+  $controller         = new App\Controllers\ReadCostumeController($app);
+  $costumeList        = $controller->readAll();
+  $page               = new App\Controllers\PageController($app);
+  return $page->indexAction($costumeList, $isAdmin);
+});
+$app->get("costume/unpublish/{hash}", function ($hash) use ($app) {
+  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin            = $isAdminController->isAdmin($app["session"]);
+  $controller         = new App\Controllers\UnpublishCostumeController($app);
+  $controller->unpublish($isAdmin, $hash);
+  $controller         = new App\Controllers\ReadCostumeController($app);
+  $costumeList        = $controller->readAll();
+  $page               = new App\Controllers\PageController($app);
+  return $page->indexAction($costumeList, $isAdmin);
+});
 $app->post('costume/tip/{hash}', function ($hash) use ($app) {
   $controller = new App\Controllers\UpdateCostumeController($app);
   $posts = !(empty($_POST))? $_POST: false;
@@ -81,26 +111,6 @@ $app->get("account/logout", function () use ($app) {
   $controller->setSession($app["session"]);
   $app["session"] = $controller->logout();
   return $controller->render();
-});
-$app->get("costume/approve/{hash}", function ($hash) use ($app) {
-  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
-  $isAdmin            = $isAdminController->isAdmin($app["session"]);
-  $controller         = new App\Controllers\ApproveCostumeController($app);
-  $controller->approve($isAdmin, $hash);
-  $controller         = new App\Controllers\ReadCostumeController($app);
-  $costumeList        = $controller->readAll();
-  $page               = new App\Controllers\PageController($app);
-  return $page->indexAction($costumeList, $isAdmin);
-});
-$app->get("costume/disapprove/{hash}", function ($hash) use ($app) {
-  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
-  $isAdmin            = $isAdminController->isAdmin($app["session"]);
-  $controller         = new App\Controllers\DisapproveCostumeController($app);
-  $controller->disapprove($isAdmin, $hash);
-  $controller         = new App\Controllers\ReadCostumeController($app);
-  $costumeList        = $controller->readAll();
-  $page               = new App\Controllers\PageController($app);
-  return $page->indexAction($costumeList, $isAdmin);
 });
 $app->get("transaction/", function () use ($app) {
   $isAdminController    = new App\Controllers\ReadTipperCrewController($app);

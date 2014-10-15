@@ -81,4 +81,17 @@ class CostumeModel {
     ]);
     return $statement->fetch(PDO::FETCH_OBJ);
   }
+  public function unpublishPublished($hash_id) {
+    $query = "
+      UPDATE costume
+      SET id_status = 1
+      WHERE hash_id = :hash_id
+    ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "hash_id" => $hash_id
+    ]);
+    return $statement->fetch(PDO::FETCH_OBJ);
+
+  }
 }

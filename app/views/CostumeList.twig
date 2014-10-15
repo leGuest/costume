@@ -69,7 +69,9 @@
         <td>{{ costume.tokens }}</td>
         <td>pending</td>
         <td><a href="{{ app.request.getBaseURL()}}/costume/tip/{{ costume.hash_id }}" class="costume--tip">add a tip</a></td>
-        <td>no action</td>
+        {% if admin %}
+          {% include "./Admin/AdminActionsOnDenied.twig" %}
+        {% endif %}
       </tr>
     {% endif %}
   {% endfor %}
