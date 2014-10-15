@@ -56,6 +56,22 @@
         {% endif %}
       </tr>
     {% endif %}
+    {% if costume.id_status == 3 %}
+      <tr>
+        <td>{{ costume.name }}</td>
+        <td>
+        {% if (costume.image|trim("")) is empty %}
+          no image
+        {% else %}
+          {{ costume.image }}
+        {% endif %}
+        </td>
+        <td>{{ costume.tokens }}</td>
+        <td>pending</td>
+        <td><a href="{{ app.request.getBaseURL()}}/costume/tip/{{ costume.hash_id }}" class="costume--tip">add a tip</a></td>
+        <td>no action</td>
+      </tr>
+    {% endif %}
   {% endfor %}
   </table>
 {% else %}

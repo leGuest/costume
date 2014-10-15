@@ -92,6 +92,16 @@ $app->get("costume/approve/{hash}", function ($hash) use ($app) {
   $page               = new App\Controllers\PageController($app);
   return $page->indexAction($costumeList, $isAdmin);
 });
+$app->get("costume/disapprove/{hash}", function ($hash) use ($app) {
+  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin            = $isAdminController->isAdmin($app["session"]);
+  $controller         = new App\Controllers\DisapproveCostumeController($app);
+  $controller->disapprove($isAdmin, $hash);
+  $controller         = new App\Controllers\ReadCostumeController($app);
+  $costumeList        = $controller->readAll();
+  $page               = new App\Controllers\PageController($app);
+  return $page->indexAction($costumeList, $isAdmin);
+});
 $app->get("transaction/", function () use ($app) {
   $isAdminController    = new App\Controllers\ReadTipperCrewController($app);
   $isAdmin              = $isAdminController->isAdmin($app["session"]);
@@ -106,7 +116,6 @@ $app->get("transaction/approve/{id}", function ($id) use ($app) {
   $page                 = new App\Controllers\PageController($app);
   return $page->readTransactionAction($isAdmin);
 });
-
 $app->get("transaction/discard/{id}", function ($id) use ($app) {
   $isAdminController    = new App\Controllers\ReadTipperCrewController($app);
   $isAdmin              = $isAdminController->isAdmin($app["session"]);
@@ -115,6 +124,5 @@ $app->get("transaction/discard/{id}", function ($id) use ($app) {
   $page                 = new App\Controllers\PageController($app);
   return $page->readTransactionAction($isAdmin);
 });
-
 
 $app->run();

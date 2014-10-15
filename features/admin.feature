@@ -56,3 +56,31 @@ Feature: admin
     Then I should see "table" like:
       | name        | preview  | tokens | status    | actions   | admin              |
       | Sailor Moon | no image | 100    | published | add a tip | approve disapprove |
+
+  Scenario: disapprove a costume
+    Given I am on "/costume/add"
+    And I fill the "add a costume" form like:
+      | costume-name | costume-tokens | costume-tippername |
+      | Hulk         | 100            | John               |
+    And I am on "/account/login"
+    And I fill the "login" form like:
+      | login-name  | login-password |
+      | admin       | admin123       |
+    When I am on "/"
+    And I click on the "disapprove" link
+    Then I should see "table" like:
+      | name        | preview  | tokens | status    | actions    | admin     |
+      | Sailor Moon | no image | 200    | published | add a tipp | unpublish |
+      | Hulk        | no image | 100    | pending   | add a tip  | no action |
+
+  Scenario: Unpublish a costume
+    Given I am on "/account/login"
+    And I fill the "login" form like:
+      | login-name  | login-password |
+      | admin       | admin123       |
+    When I am on "/"
+    And I click on the "unpublish" link
+    Then I should see "table" like:
+      | name        | preview  | tokens | status    | actions   | admin              |
+      | Sailor Moon | no image | 100    | pending   | add a tip | approve disapprove |
+
