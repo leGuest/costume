@@ -80,8 +80,34 @@ $app->post('costume/tip/{hash}', function ($hash) use ($app) {
   $posts = !(empty($_POST))? $_POST: false;
   return $controller->update($posts, $hash);
 });
+$app->get('costume/update/name/{hash}', function ($hash) use ($app) {
+  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin            = $isAdminController->isAdmin($app["session"]);
+  $controller         = new App\Controllers\PageController($app);
+  return $controller->updateCostumeName($isAdmin, $hash);
+});
+$app->post('costume/update/name/{hash}', function ($hash) use ($app) {
+  $posts = !(empty($_POST))? $_POST: false;
+  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin            = $isAdminController->isAdmin($app["session"]);
+  $controller         = new App\Controllers\UpdateCostumeController($app);
+  return $controller->updateName($posts, $hash);
+});
+$app->get('costume/update/image/{hash}', function ($hash) use ($app) {
+  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin            = $isAdminController->isAdmin($app["session"]);
+  $controller         = new App\Controllers\PageController($app);
+  return $controller->updateCostumeImage($isAdmin, $hash);
+});
+$app->post('costume/update/image/{hash}', function ($hash) use ($app) {
+  $posts = !(empty($_POST))? $_POST: false;
+  $isAdminController  = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin            = $isAdminController->isAdmin($app["session"]);
+  $controller         = new App\Controllers\UpdateCostumeController($app);
+  return $controller->updateImage($posts, $hash);
+});
 $app->get('account/register', function () use ($app) {
-  $controller = new App\Controllers\PageController($app);
+  $controller         = new App\Controllers\PageController($app);
   return $controller->registerTipperAction();
 });
 $app->post('account/register', function () use ($app) {

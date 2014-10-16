@@ -1,0 +1,23 @@
+{# @TODO :
+  refactor in form.css
+#}
+<style>
+  label, input, div[classname*="costume--input--*"]{
+    display:block;
+  }
+</style>
+
+<form action="{{ app.request.getBaseURL()}}/costume/update/name/{{costumeHash}}" method="post">
+  {# @TODO:
+      add security_token
+  #}
+
+  <label for="costume">current costume name: </label>
+  {% if costumeName %}
+    <div> {{  costumeName }} </div>
+  {%  endif %}
+
+  Enter a new name for the costume:
+  <input type="text" name="costume-update-name" id="costume-update-name" value="" />
+  <input type="submit" name="costume-update-submit" id="costume-update-submit" value="update the costume name" />
+</form>

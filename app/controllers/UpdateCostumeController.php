@@ -50,4 +50,44 @@ class UpdateCostumeController {
     }
     return $result;
   }
+  public function updateName($post, $hash) {
+    $notification = [
+      "className" => "error",
+      "message"   => "Could not update the costume name. Please try again later."
+    ];
+    if (isset($_POST["costume-update-submit"])) {
+      $costumeName          = mysql_escape_string((string) $post["costume-update-name"]);;
+      $costumeModel         = new CostumeModel($this->app["pdo"]);
+      $costume              = $costumeModel->getFromHash($hash);
+      $costumeNameUpdated   = $costumeModel->updateName($costume->id, $costumeName);
+      $notification = [
+        "className" => "success",
+        "message"   => "The costume name have been updated."
+      ];
+    }
+    return $this->app["twig"]->render("Notification.twig", [
+      "notification" => $notification
+    ]);
+  }
+  public function updateImage($post, $hash) {
+    $notification = [
+      "className" => "error",
+      "message"   => "Could not update the costume image. Please try again later."
+    ];
+    if (isset($_POST["costume-update-submit"])) {
+      $costumeImage         = mysql_escape_string((string) $post["costume-update-image"]);;
+      $costumeModel         = new CostumeModel($this->app["pdo"]);
+      $costume              = $costumeModel->getFromHash($hash);
+      $costumeImage         = $costumeModel->getFromId($costume->id);
+      $costumeNameUpdated   = $costumeModel->updateImage($costume->id, $costumeImage->image);
+      $notification = [
+        "className" => "success",
+        "message"   => "The costume image have been updated."
+      ];
+    }
+    return $this->app["twig"]->render("Notification.twig", [
+      "notification" => $notification
+    ]);
+
+  }
 }

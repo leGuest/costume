@@ -127,7 +127,9 @@ class FeatureContext extends BehatContext
     while($tableDom->eq($counter)->text() !== $tableDom->last()->text())
     {
       if (isset($tablehash[$counter])) {
-        if (trim($tableDom->eq($counter)->text()) !== trim($tablehash[$counter])) {
+        $tableDomText     = preg_replace('/\s+/', '', $tableDom->eq($counter)->text());
+        $tableHashText    = preg_replace('/\s+/', '', $tablehash[$counter]);
+        if ($tableDomText !== $tableHashText) {
           throw new BehaviorException("the row data " . $tableDom->eq($counter)->text() ." cannot be found.");
         }
       }

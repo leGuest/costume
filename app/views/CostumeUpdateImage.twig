@@ -1,0 +1,28 @@
+{# @TODO :
+  refactor in form.css
+#}
+<style>
+  label, input, div[classname*="costume--input--*"]{
+    display:block;
+  }
+</style>
+
+<form action="{{ app.request.getBaseURL()}}/costume/update/image/{{costumeHash}}" method="post">
+  {# @TODO:
+      add security_token
+  #}
+
+  <label for="costume">current costume name: </label>
+  {% if costumeName %}
+    <div> {{  costumeName }} </div>
+  {%  endif %}
+
+  <label for="costume image">current costume image </label>
+  {% if costumeImage %}
+    <div> {{  costumeImage }} </div>
+  {%  endif %}
+
+  Enter a new image for the costume:
+  <input type="text" name="costume-update-image" id="costume-update-image" value="" />
+  <input type="submit" name="costume-update-submit" id="costume-update-submit" value="update the costume image" />
+</form>

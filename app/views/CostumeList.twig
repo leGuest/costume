@@ -22,31 +22,49 @@
   {% for costume in costumes %}
     {% if costume.id_status == 2 %}
       <tr>
-        <td>{{ costume.name }}</td>
         <td>
-        {% if (costume.image|trim("")) is empty %}
-          no image
-        {% else %}
-          {{ costume.image }}
-        {% endif %}
+          {{ costume.name }}
+          {% if admin %}
+            {% include "./Admin/AdminActionsEditCostumeName.twig" %}
+          {% endif %}
+        </td>
+        <td>
+          {% if (costume.image|trim("")) is empty %}
+            no image
+          {% else %}
+            {{ costume.image }}
+          {% endif %}
+          {% if admin %}
+            {% include "./Admin/AdminActionsEditImageName.twig" %}
+          {% endif %}
         </td>
         <td>{{ costume.tokens }}</td>
         <td>published</td>
-        <td><a href="{{ app.request.getBaseURL()}}/costume/tip/{{ costume.hash_id }}" class="costume--tip">add a tip</a></td>
-        {% if admin %}
-          {% include "./Admin/AdminActionsOnPublished.twig" %}
-        {% endif %}
+        <td>
+          <a href="{{ app.request.getBaseURL()}}/costume/tip/{{ costume.hash_id }}" class="costume--tip">add a tip</a>
+          {% if admin %}
+            {% include "./Admin/AdminActionsOnPublished.twig" %}
+          {% endif %}
+        </td>
       </tr>
     {% endif %}
     {% if costume.id_status == 1 %}
       <tr>
-        <td>{{ costume.name }}</td>
         <td>
-        {% if (costume.image|trim("")) is empty %}
-          no image
-        {% else %}
-          {{ costume.image }}
-        {% endif %}
+          {{ costume.name }}
+          {% if admin %}
+            {% include "./Admin/AdminActionsEditCostumeName.twig" %}
+          {% endif %}
+        </td>
+        <td>
+          {% if (costume.image|trim("")) is empty %}
+            no image
+          {% else %}
+            {{ costume.image }}
+          {% endif %}
+          {% if admin %}
+            {% include "./Admin/AdminActionsEditImageName.twig" %}
+          {% endif %}
         </td>
         <td>{{ costume.tokens }}</td>
         <td>pending</td>
@@ -58,19 +76,28 @@
     {% endif %}
     {% if costume.id_status == 3 %}
       <tr>
-        <td>{{ costume.name }}</td>
         <td>
-        {% if (costume.image|trim("")) is empty %}
-          no image
-        {% else %}
-          {{ costume.image }}
-        {% endif %}
+          {{ costume.name }}
+          {% if admin %}
+            {% include "./Admin/AdminActionsEditCostumeName.twig" %}
+          {% endif %}
+        </td>
+        <td>
+          {% if (costume.image|trim("")) is empty %}
+            no image
+          {% else %}
+            {{ costume.image }}
+          {% endif %}
+          {% if admin %}
+            {% include "./Admin/AdminActionsEditImageName.twig" %}
+          {% endif %}
         </td>
         <td>{{ costume.tokens }}</td>
         <td>pending</td>
         <td><a href="{{ app.request.getBaseURL()}}/costume/tip/{{ costume.hash_id }}" class="costume--tip">add a tip</a></td>
         {% if admin %}
           {% include "./Admin/AdminActionsOnDenied.twig" %}
+          {% include "./Admin/AdminActionsEdit.twig" %}
         {% endif %}
       </tr>
     {% endif %}

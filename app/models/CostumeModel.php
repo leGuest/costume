@@ -30,6 +30,18 @@ class CostumeModel {
     ]);
     return $statement->fetch(PDO::FETCH_OBJ);
   }
+  public function getFromId($id) {
+    $query = "
+      SELECT name, image
+      FROM costume
+      WHERE id = :id
+    ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "id" => $id
+    ]);
+    return $statement->fetch(PDO::FETCH_OBJ);
+  }
   public function create($name)
   {
     $query = "
@@ -54,6 +66,32 @@ class CostumeModel {
     $statement->execute([
       "name"    => $name,
       "hash_id" => hash("crc32b", $name)
+    ]);
+    return $this->pdo->lastInsertId();
+  }
+  public function updateImage($id, $image) {
+    $query = "
+      UPDATE costume
+      SET image = :image
+      WHERE id = :id
+    ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "image"  => $image,
+      "id"    => $id
+    ]);
+    return $this->pdo->lastInsertId();
+  }
+  public function updateName($id, $name) {
+    $query = "
+      UPDATE costume
+      SET name = :name
+      WHERE id = :id
+    ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "name"  => $name,
+      "id"    => $id
     ]);
     return $this->pdo->lastInsertId();
   }
@@ -92,6 +130,6 @@ class CostumeModel {
       "hash_id" => $hash_id
     ]);
     return $statement->fetch(PDO::FETCH_OBJ);
-
   }
+
 }

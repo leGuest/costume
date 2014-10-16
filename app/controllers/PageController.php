@@ -35,7 +35,6 @@ class PageController{
 
   public function loginTipperAction () {
     return $this->app["twig"]->render("TipperLogin.twig");
-
   }
 
   public function readTransactionAction($isAdmin) {
@@ -47,6 +46,30 @@ class PageController{
     return $this->app["twig"]->render("TransactionList.twig", [
       "transactions" => $transactions
     ]);
+  }
+  public function updateCostumeName($isAdmin, $hash) {
+    if ($isAdmin === true) {
+      $costumeModel = new CostumeModel($this->app["pdo"]);
+      $costume      = $costumeModel->getFromHash($hash);
+      return $this->app["twig"]->render("CostumeUpdateName.twig", [
+        "costumeHash" => $hash,
+        "costumeName" => $costume->name
+      ]);
+    }
+    return $this->app["twig"]->render("CostumeList.twig");
+  }
+  public function updateCostumeImage($isAdmin, $hash) {
+    if ($isAdmin === true) {
+      $costumeModel = new CostumeModel($this->app["pdo"]);
+      $costume      = $costumeModel->getFromHash($hash);
+      $costumeImage = $costumeModel->getFromId($costume->id);
+      return $this->app["twig"]->render("CostumeUpdateImage.twig", [
+        "costumeHash"   => $hash,
+        "costumeName"   => $costume->name,
+        "costumeIMage"  => $costumeImage->image
+      ]);
+    }
+    return $this->app["twig"]->render("CostumeList.twig");
   }
 }
 

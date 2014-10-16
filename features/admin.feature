@@ -6,8 +6,8 @@ Feature: admin
       | admin       | admin123       |
     When I am on "/"
     Then I should see "table" like:
-      | name        | preview  | tokens | status  | actions   | admin              |
-      | Sailor Moon | no image | 100    | pending | add a tip | approve disapprove |
+      | name                    | preview               | tokens | status  | actions   | admin              |
+      | Sailor Moon update name | no image update image | 100    | pending | add a tip | approve disapprove |
     And I Should see a "transaction list" link that should go to "/transaction"
 
   Scenario: transaction list
@@ -46,6 +46,10 @@ Feature: admin
       | Sailor Moon | 200    | John   | denied        | approve disapprove |
       | Sailor Moon | 250    | James  | pending       | approve disapprove |
 
+  Scenario: update a costume on transaction
+
+  Scenario: update tokens amount on transaction
+
   Scenario: approve a costume
     Given I am on "/account/login"
     And I fill the "login" form like:
@@ -54,8 +58,8 @@ Feature: admin
     When I am on "/"
     And I click on the "approve" link
     Then I should see "table" like:
-      | name        | preview  | tokens | status    | actions   | admin              |
-      | Sailor Moon | no image | 100    | published | add a tip | unpublish          |
+      | name                    | preview               | tokens | status    | actions   | admin              |
+      | Sailor Moon update name | no image update image | 100    | published | add a tip | unpublish          |
 
   Scenario: disapprove a costume
     Given I am on "/account/login"
@@ -65,9 +69,9 @@ Feature: admin
     When I am on "/"
     And I click on the "costume--disapprove" link of id "/costume/disapprove/3ef6990e" marked as "disapprove"
     Then I should see "table" like:
-      | name        | preview  | tokens | status    | actions     | admin     |
-      | Sailor Moon | no image | 100    | published | add a tip   | unpublish |
-      | Hulk        | no image | 100    | pending   | add a tip   | no action |
+      | name                    | preview               | tokens | status    | actions     | admin     |
+      | Sailor Moon update name | no image update image | 100    | published | add a tip   | unpublish |
+      | Hulk        update name | no image update image | 100    | pending   | add a tip   | no action |
 
   Scenario: Unpublish a costume
     Given I am on "/account/login"
@@ -77,6 +81,46 @@ Feature: admin
     When I am on "/"
     And I click on the "unpublish" link
     Then I should see "table" like:
-      | name        | preview  | tokens | status    | actions   | admin              |
-      | Sailor Moon | no image | 100    | pending   | add a tip | approve disapprove |
+      | name                    | preview               | tokens | status    | actions   | admin              |
+      | Sailor Moon update name |no image update image  | 100    | pending   | add a tip | approve disapprove |
+
+  Scenario: wants to update a costume name
+    Given I am on "/account/login"
+    And I fill the "login" form like:
+      | login-name  | login-password |
+      | admin       | admin123       |
+    When I am on "/"
+    And I click on the "costume--update--name" link of id "/costume/update/name/shgbvb35" marked as "update name"
+    Then I should be redirected to "/costume/update/name/shgbvb35"
+
+  Scenario: update a costume name
+    Given I am on "/account/login"
+    And I fill the "login" form like:
+      | login-name  | login-password |
+      | admin       | admin123       |
+    And I am on "/costume/update/name/shgbvb35"
+    When I fill the "update the costume name" form like:
+      | costume-update-name         |
+      | Sailor Moon                 |
+    Then I Should see a notification "The costume name have been updated."
+
+  Scenario: wants to update a costume image
+    Given I am on "/account/login"
+    And I fill the "login" form like:
+      | login-name  | login-password |
+      | admin       | admin123       |
+    When I am on "/"
+    And I click on the "costume--update--image" link of id "/costume/update/image/shgbvb35" marked as "update image"
+    Then I should be redirected to "/costume/update/image/shgbvb35"
+
+  Scenario: update a costume image
+    Given I am on "/account/login"
+    And I fill the "login" form like:
+      | login-name  | login-password |
+      | admin       | admin123       |
+    And I am on "/costume/update/image/shgbvb35"
+    When I fill the "update the costume image" form like:
+      | costume-update-image |
+      | kameha        |
+    Then I Should see a notification "The costume image have been updated."
 
