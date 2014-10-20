@@ -6,14 +6,17 @@ use Silex\Extension\TwigExtension;
 use Opis\Session\Session;
 
 $app = new Silex\Application();
-$env = "dev";
-if (isset($env) && in_array($env, array("prod", "dev", "test"))) {
+
+$env = include __DIR__.'/../config/env.php';
+
+if (isset($env) && in_array($env, array("dev", "test"))) {
   $app["env"] = $env;
   $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
+  $app["pdo"] = new \PDO("sqlite:../database/costumes.sqlite");
 } else {
   $app["env"] = "prod";
+  $app["pdo"] = new \PDO("sqlite:../database/costumes_prod.sqlite");
 }
-$app["pdo"] = new \PDO("sqlite:../database/costumes.sqlite");
 $app->register(new Silex\Provider\TwigServiceProvider, array(
   "twig.path" => __DIR__ . "/../app/views"
   //, "twig.options" => array("cache" => __DIR__ . "/../cache/twig")
@@ -159,6 +162,25 @@ $app->get("transaction/discard/{id}", function ($id) use ($app) {
   $controller->Disapprove($isAdmin, $id);
   $page                 = new App\Controllers\PageController($app);
   return $page->readTransactionAction($isAdmin);
+});
+$app->get("transaction/update/name/{id}", function ($id) use ($app) {
+  $isAdminController    = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin              = $isAdminController->isAdmin($app["session"]);
+  $controller           = new App\Controllers\PageController($app);
+  return $controller->updateTransactionCostumeName($isAdmin, $id);
+});
+$app->post("transaction/update/name/{id}", function ($id) use ($app) {
+  $posts = !(empty($_POST))? $_POST: false;
+  $isAdminController    = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin              = $isAdminController->isAdmin($app["session"]);
+  $controller           = new App\Controllers\UpdateTransactionController($app);
+  return $controller->updateCostumeName($isAdmin, $posts, $id);
+});
+$app->get("transaction/update/tokens/{id}", function ($id) use ($app) {
+  $isAdminController    = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin              = $isAdminController->isAdmin($app["session"]);
+  $controller           = new App\Controllers\PageController($app);
+  return $controller->updateTransactionTokensAmount($isAdmin, $id);
 });
 
 $app->run();
