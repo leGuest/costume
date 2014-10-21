@@ -182,5 +182,12 @@ $app->get("transaction/update/tokens/{id}", function ($id) use ($app) {
   $controller           = new App\Controllers\PageController($app);
   return $controller->updateTransactionTokensAmount($isAdmin, $id);
 });
+$app->post("transaction/update/tokens/{id}", function ($id) use ($app) {
+  $posts = !(empty($_POST))? $_POST: false;
+  $isAdminController    = new App\Controllers\ReadTipperCrewController($app);
+  $isAdmin              = $isAdminController->isAdmin($app["session"]);
+  $controller           = new App\Controllers\UpdateTransactionController($app);
+  return $controller->updateTokensAmount($isAdmin, $posts, $id);
+});
 
 $app->run();

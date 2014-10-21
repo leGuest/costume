@@ -1,17 +1,16 @@
 install:
+	rm -rf database/*
 	composer self-update
 	composer install
 	mkdir -p database/ cache/
 	chmod -R 777 database/ cache/
-	touch databases/costumes.sqlite
-	make reset
+	make prod
 
 test:
-	make dev
-	make reset
+	make reset-dev
 	bin/behat
 
-reset:
+reset-dev:
 	make dev
 	sqlite3 database/costumes.sqlite < temp/reset.sql
 	sqlite3 database/costumes.sqlite < temp/install.sql
@@ -24,8 +23,6 @@ dev:
 	chmod -R 777 database/
 
 prod:
-	composer self-update
-	composer update
 	cat config/env_prod.php > config/env.php
 	rm -rf database/costumes.sqlite
 	touch database/costumes_prod.sqlite
@@ -38,6 +35,3 @@ prod:
 	sqlite3 database/costumes_prod.sqlite < temp/reset.sql
 	sqlite3 database/costumes_prod.sqlite < temp/install.sql
 	sqlite3 database/costumes_prod.sqlite < temp/adminaccount.sql
-	
-
-

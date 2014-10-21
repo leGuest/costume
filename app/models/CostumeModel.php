@@ -42,6 +42,18 @@ class CostumeModel {
     ]);
     return $statement->fetch(PDO::FETCH_OBJ);
   }
+  public function getFromName($name) {
+    $query = "
+      SELECT id, hash_id
+      FROM costume
+      WHERE name = :name
+      ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "name" => $name
+    ]);
+    return $statement->fetch(PDO::FETCH_OBJ);
+  }
   public function create($name)
   {
     $query = "

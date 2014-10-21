@@ -71,5 +71,33 @@ class PageController{
     }
     return $this->app["twig"]->render("CostumeList.twig");
   }
+  public function updateTransactionCostumeName($isAdmin, $id) {
+    if ($isAdmin === true) {
+      $transactionModel = new TransactionModel($this->app["pdo"]);
+      $transaction      = $transactionModel->getFromId($id);
+      $costumeModel     = new CostumeModel($this->app["pdo"]);
+      $costume          = $costumeModel->getFromId($transaction->id_costume);
+      return $this->app["twig"]->render("TransactionUpdateCostumeName.twig",[
+        "transactionId" => $id,
+        "costumeId"     => $transaction->id_costume,
+        "costumeName"   => $costume->name
+      ]);
+    }
+    return $this->app["twig"]->render("TransactionList.twig");
+  }
+  public function UpdateTransactionTokensAmount($isAdmin, $id) {
+    if ($isAdmin === true) {
+      $transactionModel = new TransactionModel($this->app["pdo"]);
+      $transaction      = $transactionModel->getFromId($id);
+      $costumeModel     = new CostumeModel($this->app["pdo"]);
+      $costume          = $costumeModel->getFromId($transaction->id_costume);
+      return $this->app["twig"]->render("TransactionUpdateTokensAmount.twig", [
+        "transactionId" => $id,
+        "costumeName"   => $costume->name,
+        "tokensAmount"  => $transaction->tokens_amount
+      ]);
+    }
+    return $this->app["twig"]->render("TransactionList.twig");
+  }
 }
 

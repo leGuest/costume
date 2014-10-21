@@ -7,8 +7,14 @@
     <th>actions</th>
   {% for transaction in transactions %}
     <tr>
-      <td>{{ transaction.costume_name }}</td>
-      <td>{{ transaction.tokens_amount }}</td>
+      <td>
+        {{ transaction.costume_name }}
+        {% include "./Admin/AdminActionEditTransactionCostumeName.twig" %}
+      </td>
+      <td>
+        {{ transaction.tokens_amount }}
+        {% include "./Admin/AdminActionEditTransactionTokenAmount.twig" %}
+      </td>
       <td>{{ transaction.tipper_name }}</td>
       <td>
         {% if transaction.id_status == 1 %}

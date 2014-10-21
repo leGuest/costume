@@ -88,4 +88,30 @@ class TransactionModel {
     ]);
     return $statement->fetch(PDO::FETCH_OBJ);
   }
+  public function updateCostumeName($id, $costumeId) {
+    $query = "
+      UPDATE tipper_transaction
+      SET id_costume = :costumeId
+      WHERE id = :id
+    ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "id"          => $id,
+      "costumeId"   => $costumeId
+    ]);
+    return $statement->fetch(PDO::FETCH_OBJ);
+  }
+  public function updateTokensAmount($id, $amount) {
+    $query = "
+      UPDATE tipper_transaction
+      SET tokens_amount = :tokens_amount
+      WHERE id = :id
+    ";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([
+      "id"            => $id,
+      "tokens_amount" => $amount
+    ]);
+    return $statement->fetch(PDO::FETCH_OBJ);
+  }
 }

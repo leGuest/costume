@@ -1,0 +1,28 @@
+{# @TODO :
+  refactor in form.css
+#}
+<style>
+  label, input, div[classname*="costume--input--*"]{
+    display:block;
+  }
+</style>
+
+<form action="{{ app.request.getBaseURL()}}/transaction/update/tokens/{{transactionId}}" method="post">
+  {# @TODO:
+      add security_token
+  #}
+
+  <label for="costume">current costume name: </label>
+  {% if costumeName %}
+    <div> {{  costumeName }} </div>
+  {%  endif %}
+
+  <label for="current amount of tokens">current amount of tokens:</label>
+  {% if tokensAmount %}
+    <div> {{  tokensAmount }} </div>
+  {%  endif %}
+
+  Enter a new name for the costume:
+  <input type="text" name="transaction-update-tokensamount" id="transaction-update-tokensamount" value="" />
+  <input type="submit" name="transaction-update-submit" id="transaction-update-submit" value="update the costume name" />
+</form>
